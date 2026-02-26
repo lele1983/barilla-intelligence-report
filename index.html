@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barilla — Communication Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  background: #ffffff;
+  color: #1a1a2e;
+  line-height: 1.7;
+}
+:root {
+  --blue: #1e3a5f;
+  --blue-dark: #0f1f33;
+  --red: #c41e3a;
+  --red-light: #fce8ec;
+  --gold: #d4a039;
+  --gold-light: #fef9e7;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --bg: #ffffff;
+  --bg-alt: #f8f8f5;
+  --text: #1a1a2e;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex; gap: 4px;
+  overflow-x: auto;
+}
+.nav-btn {
+  padding: 8px 16px; border: none; border-radius: 8px;
+  background: transparent; font-family: inherit;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-light); cursor: pointer;
+  white-space: nowrap; transition: all 0.2s;
+}
+.nav-btn:hover { background: #f3f4f6; color: var(--blue); }
+.nav-btn.active { background: var(--blue); color: white; }
+
+/* LAYOUT */
+main { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.section { display: none; }
+.section.active { display: block; animation: fadeUp 0.4s ease-out; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* HERO TEXT — frasi provocatorie grandi */
+.hero-insight {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px; font-weight: 700;
+  line-height: 1.25;
+  color: var(--blue);
+  max-width: 720px;
+  margin: 64px 0 16px;
+}
+.hero-sub {
+  font-size: 17px; color: var(--text-light);
+  max-width: 600px; margin-bottom: 48px;
+}
+
+/* ACT LABEL */
+.act-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 8px; padding-top: 48px;
+}
+
+/* CARDS */
+.card {
+  background: var(--bg-alt); border-radius: 20px;
+  padding: 32px; margin-bottom: 24px;
+}
+.card-white {
+  background: white; border: 1px solid var(--border);
+  border-radius: 20px; padding: 32px; margin-bottom: 24px;
+}
+.card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px; font-weight: 600; margin-bottom: 20px;
+}
+
+/* STAT — grande numero con contesto */
+.stat-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+.stat {
+  flex: 1; min-width: 180px; padding: 24px;
+  border-radius: 16px; text-align: center;
+}
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 42px; font-weight: 700; line-height: 1;
+}
+.stat-label { font-size: 14px; color: var(--text-light); margin-top: 8px; }
+.stat-note { font-size: 12px; color: var(--text-light); margin-top: 4px; font-style: italic; }
+
+/* INSIGHT CALLOUT */
+.callout {
+  padding: 24px 28px; border-radius: 16px;
+  margin: 24px 0; font-size: 16px; line-height: 1.7;
+}
+.callout.blue { background: #eef2f7; border-left: 4px solid var(--blue); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.gold { background: var(--gold-light); border-left: 4px solid var(--gold); }
+.callout strong { display: block; margin-bottom: 6px; font-size: 15px; }
+
+/* VERSUS */
+.versus {
+  display: grid; grid-template-columns: 1fr 60px 1fr;
+  gap: 0; align-items: center; margin: 32px 0;
+}
+.versus-side {
+  padding: 28px; border-radius: 16px; text-align: center;
+}
+.versus-vs {
+  text-align: center; font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px; font-weight: 700; color: var(--text-light);
+}
+.versus-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px; font-weight: 700; line-height: 1;
+}
+.versus-label { font-size: 14px; margin-top: 8px; }
+
+/* MOVE CARD */
+.move {
+  display: flex; gap: 24px; align-items: flex-start;
+  padding: 28px; background: var(--bg-alt);
+  border-radius: 20px; margin-bottom: 20px;
+}
+.move-num {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.move-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.move-body { font-size: 15px; color: var(--text-light); line-height: 1.7; }
+.move-data { font-size: 13px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+
+/* TENSION */
+.tension {
+  display: grid; grid-template-columns: 1fr 40px 1fr;
+  align-items: center; padding: 20px;
+  background: var(--bg-alt); border-radius: 12px;
+  margin-bottom: 12px;
+}
+.tension-left { text-align: right; padding-right: 12px; }
+.tension-right { padding-left: 12px; }
+.tension-icon { text-align: center; font-size: 18px; color: var(--red); }
+.tension-word { font-weight: 700; font-size: 15px; }
+.tension-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+/* METHOD GRID */
+.method-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 32px 0; }
+.method-item {
+  text-align: center; padding: 24px 16px;
+  border-radius: 16px; background: var(--bg-alt);
+}
+.method-icon { font-size: 32px; margin-bottom: 12px; }
+.method-name { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; }
+.method-desc { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .method-grid { grid-template-columns: 1fr; }
+  .versus { grid-template-columns: 1fr; }
+  .hero-insight { font-size: 24px; }
+  .stat-number { font-size: 32px; }
+  .versus-number { font-size: 36px; }
+}
+
+/* QUOTE */
+.quote {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px; font-weight: 600; font-style: italic;
+  color: var(--blue); text-align: center;
+  padding: 40px 32px; margin: 32px 0;
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+}
+
+/* CAMPAIGN CARD */
+.campaign {
+  padding: 24px; border-radius: 16px;
+  border: 1px solid var(--border); background: white;
+}
+.campaign-badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 12px; font-size: 11px; font-weight: 600;
+}
+
+/* FOOTER */
+footer {
+  text-align: center; padding: 40px 24px;
+  font-size: 12px; color: var(--text-light);
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+}
+footer strong { color: var(--text); }
+
+/* TIMELINE */
+.timeline { display:flex; justify-content:space-between; position:relative; padding:48px 0 24px; margin:32px 0; }
+.timeline::before { content:''; position:absolute; top:48px; left:5%; right:5%; height:3px; background:var(--blue); }
+.timeline-dot { position:relative; text-align:center; z-index:1; flex:1; }
+.timeline-dot::before { content:''; display:block; width:14px; height:14px; background:var(--blue); border-radius:50%; margin:0 auto 10px; border:3px solid white; box-shadow:0 0 0 2px var(--blue); }
+.timeline-dot.highlight::before { background:var(--red); box-shadow:0 0 0 3px var(--red); width:20px; height:20px; }
+.timeline-year { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; color:var(--blue); }
+.timeline-event { font-size:11px; color:var(--text-light); margin-top:4px; max-width:100px; margin-left:auto; margin-right:auto; line-height:1.4; }
+
+/* RISK TABLE */
+.risk-table { width:100%; border-collapse:separate; border-spacing:0 6px; }
+.risk-table th { font-size:11px; font-weight:600; color:var(--text-light); text-align:left; padding:8px 12px; text-transform:uppercase; letter-spacing:1px; }
+.risk-table td { padding:12px 14px; font-size:14px; background:var(--bg-alt); }
+.risk-table tr td:first-child { border-radius:10px 0 0 10px; font-weight:600; }
+.risk-table tr td:last-child { border-radius:0 10px 10px 0; }
+.risk-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+.risk-low { background:var(--green); }
+.risk-med { background:var(--gold); }
+.risk-high { background:var(--red); }
+
+/* TREND BADGE */
+.trend-badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+.trend-up { background:var(--green-light); color:var(--green); }
+.trend-stable { background:#eef2f7; color:var(--blue); }
+.trend-down { background:var(--red-light); color:var(--red); }
+
+/* DONUT CHART LEGEND */
+.sov-legend { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:16px; }
+.sov-legend-item { display:flex; align-items:center; gap:6px; font-size:13px; }
+.sov-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+
+/* PRINT */
+@media print {
+  nav { display: none; }
+  .section { display: block !important; page-break-before: always; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="nav-btn active" data-section="method" onclick="showSection('method')">Il Metodo</button>
+  <button class="nav-btn" data-section="paradox" onclick="showSection('paradox')">Il Paradosso</button>
+  <button class="nav-btn" data-section="consumer" onclick="showSection('consumer')">Stampa e Media</button>
+  <button class="nav-btn" data-section="strength" onclick="showSection('strength')">150 Anni</button>
+  <button class="nav-btn" data-section="territory" onclick="showSection('territory')">Alert Reputazionale</button>
+  <button class="nav-btn" data-section="moves" onclick="showSection('moves')">Tre Mosse PR</button>
+  <button class="nav-btn" data-section="approach" onclick="showSection('approach')">Perch&eacute; Noi</button>
+</nav>
+
+<main>
+
+<!-- ==============================
+     ATTO 0: IL METODO
+     ============================== -->
+<div id="method" class="section active">
+
+  <div style="text-align:center;padding:80px 0 48px;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:16px;">Corporate Reputation Intelligence Report</div>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:var(--blue);line-height:1.15;max-width:700px;margin:0 auto;">Il brand italiano pi&ugrave; rispettato ha una reputazione straordinaria. E nessuno la sta governando online.</h1>
+    <p style="font-size:17px;color:var(--text-light);margin-top:20px;max-width:560px;margin-left:auto;margin-right:auto;">Un&rsquo;analisi multi-intelligenza sulla <strong>reputazione corporate</strong> Barilla.</p>
+    <p style="font-size:12px;color:#999;margin-top:24px;">Febbraio 2026</p>
+  </div>
+
+  <div class="card">
+    <h3>Come abbiamo guardato Barilla</h3>
+    <p style="font-size:15px;color:var(--text-light);margin-bottom:24px;">Abbiamo messo al lavoro un&rsquo;orchestra di intelligenze artificiali specializzate per analizzare Barilla da quattro prospettive simultanee. Il risultato &egrave; una visione che nessuna singola fonte pu&ograve; offrire.</p>
+
+    <div class="method-grid" style="grid-template-columns:repeat(5,1fr);">
+      <div class="method-item">
+        <div class="method-icon">&#127758;</div>
+        <div class="method-name">Consumer Intelligence</div>
+        <div class="method-desc">GWI Panel &mdash; 700M+ profili globali. Attitudini e motivazioni del consumatore italiano.</div>
+      </div>
+      <div class="method-item">
+        <div class="method-icon">&#128225;</div>
+        <div class="method-name">Social Listening</div>
+        <div class="method-desc">9 mesi di conversazioni analizzate. Sentiment, volumi, tematiche sensibili.</div>
+      </div>
+      <div class="method-item">
+        <div class="method-icon">&#128240;</div>
+        <div class="method-name">Press Intelligence</div>
+        <div class="method-desc">Monitoraggio stampa nazionale: Corriere, Repubblica, Sole 24 Ore, TG1/TG5.</div>
+      </div>
+      <div class="method-item">
+        <div class="method-icon">&#9878;</div>
+        <div class="method-name">Competitive Intelligence</div>
+        <div class="method-desc">Benchmark reputazionale contro i 4 principali competitor pasta in Italia.</div>
+      </div>
+      <div class="method-item">
+        <div class="method-icon">&#127912;</div>
+        <div class="method-name">Cultural Analysis</div>
+        <div class="method-desc">Tensioni culturali e territori reputazionali nel food italiano.</div>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <strong>Il metodo, non solo i dati</strong>
+      Ogni insight di questo report nasce dall&rsquo;incrocio di almeno tre fonti diverse. Non ci fidiamo di un singolo numero: cerchiamo il <strong>pattern</strong> che emerge quando consumer data, copertura stampa, conversazioni social e analisi competitiva raccontano la stessa storia.
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 1: IL PARADOSSO
+     ============================== -->
+<div id="paradox" class="section">
+  <div class="act-label">Atto 1</div>
+  <div class="hero-insight">Barilla &egrave; tra i brand italiani pi&ugrave; rispettati al mondo.<br>Ma la sua voce istituzionale online &egrave; la pi&ugrave; debole del settore.</div>
+  <div class="hero-sub">148 anni di storia, 100/100 HRC, Top Employer. Eppure quando il brand parla sui canali che controlla, nessuno ascolta.</div>
+
+  <div class="versus">
+    <div class="versus-side" style="background:var(--green-light);">
+      <div class="versus-number" style="color:var(--green);">148</div>
+      <div class="versus-label"><strong>Capitale Reputazionale</strong><br>Anni di storia, 100/100 HRC,<br>Top Employer, 2.7:1 earned/paid</div>
+    </div>
+    <div class="versus-vs">VS</div>
+    <div class="versus-side" style="background:var(--red-light);">
+      <div class="versus-number" style="color:var(--red);">250</div>
+      <div class="versus-label"><strong>Presidio Digitale</strong><br>Engagement medio per post<br>dell&rsquo;account ufficiale</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Quanto &egrave; grande il divario?</h3>
+    <div style="max-width:580px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:130px;font-size:14px;font-weight:600;">La Molisana</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:100%;height:100%;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">2.763</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:130px;font-size:14px;font-weight:600;">Rummo</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:78%;height:100%;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">2.149</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:130px;font-size:14px;font-weight:600;">De Cecco</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:77%;height:100%;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">2.140</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:130px;font-size:14px;font-weight:600;">Garofalo</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:63%;height:100%;background:#7c3aed;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">1.734</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:130px;font-size:14px;font-weight:700;color:var(--red);">Barilla</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:9%;min-width:55px;height:100%;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">250</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-light);margin-top:16px;">Engagement medio per post &mdash; Account ufficiali Instagram &mdash; Giu 2025&ndash;Feb 2026</p>
+  </div>
+
+  <div class="quote">&ldquo;Il problema non &egrave; la reputazione. &Egrave; chi la governa online.&rdquo;</div>
+
+  <div class="callout red">
+    <strong>Perch&eacute; questo conta per il PR Corporate</strong>
+    Un Chief Communication Officer non pu&ograve; permettere che la narrativa corporate sia scritta da terzi. Quando l&rsquo;account ufficiale genera <strong>250 interazioni</strong> e i creator fino a <strong>25.000</strong>, la voce del brand non &egrave; nelle vostre mani. I canali owned sono il presidio dove un&rsquo;azienda governa la propria reputazione, gestisce le crisi e guida la conversazione pubblica. Oggi quel presidio &egrave; il pi&ugrave; debole del settore.
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 2: LA STAMPA E I MEDIA
+     ============================== -->
+<div id="consumer" class="section">
+  <div class="act-label">Atto 2</div>
+  <div class="hero-insight">La prima azienda alimentare al mondo per reputazione. Ma online la sua voce &egrave; la pi&ugrave; debole del settore.</div>
+  <div class="hero-sub">Stampa, ranking internazionali e social media raccontano la stessa storia: Barilla ha un capitale reputazionale enorme &mdash; e nessuno lo sta governando nel digitale. Sui social il 95% delle conversazioni avviene senza il brand.</div>
+
+  <!-- REPUTAZIONE SUI MEDIA — Dati reali da RepTrak, ESG Perception Index -->
+  <div class="card">
+    <h3>La reputazione Barilla sui media</h3>
+    <div class="grid-2">
+      <div>
+        <div style="display:flex;gap:16px;margin-bottom:20px;">
+          <div style="flex:1;text-align:center;padding:20px;background:var(--green-light);border-radius:16px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:var(--green);">#1</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Azienda alimentare al mondo per reputazione</div>
+            <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:6px;">Global RepTrak&reg; 100 &mdash; 2025</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:20px;background:linear-gradient(135deg,#eef2ff,#f0fdf4);border-radius:16px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:var(--blue);">25&ordf;</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Posizione globale su tutti i settori</div>
+            <div style="font-size:11px;color:var(--blue);font-weight:600;margin-top:6px;">+4 posizioni vs 2024</div>
+          </div>
+        </div>
+        <div style="padding:16px;background:var(--bg-alt);border-radius:12px;margin-bottom:12px;">
+          <div style="font-weight:700;font-size:14px;margin-bottom:8px;">🏆 Riconoscimenti 2025&ndash;2026</div>
+          <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.8;color:var(--text);">
+            <li><strong>RepTrak 2025:</strong> #1 food company al mondo (2&deg; anno consecutivo, 243.000 interviste, 14 economie)</li>
+            <li><strong>ESG Perception Index:</strong> Podio Food&amp;Beverage Italia con Ferrero e Lavazza (feb 2026)</li>
+            <li><strong>TuttoFood 2025:</strong> Better Future Award per Protein+ (innovazione prodotto)</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:12px;">📰 Copertura stampa per tema (2025&ndash;2026)</div>
+        <div style="max-width:380px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:120px;font-size:12px;font-weight:600;">Bilancio / risultati</div>
+            <div style="flex:1;background:#e5e7eb;border-radius:6px;height:22px;">
+              <div style="width:100%;height:100%;background:var(--blue);border-radius:6px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700;">10+ testate</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:120px;font-size:12px;font-weight:600;">Dazi USA 107%</div>
+            <div style="flex:1;background:#e5e7eb;border-radius:6px;height:22px;">
+              <div style="width:85%;height:100%;background:var(--red);border-radius:6px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700;">8+ testate</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:120px;font-size:12px;font-weight:600;">Sostenibilit&agrave; / ESG</div>
+            <div style="flex:1;background:#e5e7eb;border-radius:6px;height:22px;">
+              <div style="width:70%;height:100%;background:var(--green);border-radius:6px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700;">7+ testate</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:120px;font-size:12px;font-weight:600;">Reputazione / ranking</div>
+            <div style="flex:1;background:#e5e7eb;border-radius:6px;height:22px;">
+              <div style="width:60%;height:100%;background:var(--gold);border-radius:6px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700;">6+ testate</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:120px;font-size:12px;font-weight:600;">Innovazione prodotto</div>
+            <div style="flex:1;background:#e5e7eb;border-radius:6px;height:22px;">
+              <div style="width:45%;height:100%;background:#7c3aed;border-radius:6px;display:flex;align-items:center;padding-left:8px;color:white;font-size:11px;font-weight:700;">4+ testate</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--text-light);margin-top:12px;font-style:italic;">Fonti: Il Sole 24 Ore, Alimentando, FoodAffairs, Money.it, CibusLink, Distribuzione Moderna, BusinessWire, Borsa Italiana/Radiocor, Stampa Parlamento &mdash; 2025&ndash;2026</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOV SOCIAL — Dati reali OpenSearch con filtro contestuale pasta (907 menzioni qualificate, giu 2025–feb 2026) -->
+  <div class="card">
+    <h3>Share of Voice social: menzioni nel settore pasta</h3>
+    <div class="grid-2">
+      <div style="display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 200 200" width="220" height="220">
+          <!-- Donut chart reale filtrato: Barilla 36%, De Cecco 24%, Garofalo 18%, La Molisana 13%, Rummo 9% -->
+          <!-- circumference = 2*pi*70 = 439.82 -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#e5e7eb" stroke-width="32"/>
+          <!-- Barilla 36% = 158.34 (LEADER) -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#1e3a5f" stroke-width="32" stroke-dasharray="158.34 281.48" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+          <!-- De Cecco 24% = 105.56, offset = -158.34 -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#6b7280" stroke-width="32" stroke-dasharray="105.56 334.26" stroke-dashoffset="-158.34" transform="rotate(-90 100 100)"/>
+          <!-- Garofalo 18% = 79.17, offset = -263.90 -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#0891b2" stroke-width="32" stroke-dasharray="79.17 360.65" stroke-dashoffset="-263.90" transform="rotate(-90 100 100)"/>
+          <!-- La Molisana 13% = 57.18, offset = -343.07 -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#059669" stroke-width="32" stroke-dasharray="57.18 382.64" stroke-dashoffset="-343.07" transform="rotate(-90 100 100)"/>
+          <!-- Rummo 9% = 39.58, offset = -400.25 -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#7c3aed" stroke-width="32" stroke-dasharray="39.58 400.24" stroke-dashoffset="-400.25" transform="rotate(-90 100 100)"/>
+          <!-- Center label -->
+          <text x="100" y="88" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="26" font-weight="700" fill="#1e3a5f">36%</text>
+          <text x="100" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6b7280">Barilla</text>
+          <text x="100" y="120" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#059669">Leader per volume</text>
+        </svg>
+      </div>
+      <div>
+        <div class="sov-legend" style="flex-direction:column;align-items:flex-start;gap:10px;">
+          <div class="sov-legend-item"><div class="sov-dot" style="background:#1e3a5f;"></div><strong>Barilla &mdash; 36%</strong> &nbsp;326 menzioni &mdash; Leader per volume</div>
+          <div class="sov-legend-item"><div class="sov-dot" style="background:#6b7280;"></div>De Cecco &mdash; 24% &nbsp;215 menzioni</div>
+          <div class="sov-legend-item"><div class="sov-dot" style="background:#0891b2;"></div>Garofalo &mdash; 18% &nbsp;168 menzioni</div>
+          <div class="sov-legend-item"><div class="sov-dot" style="background:#059669;"></div>La Molisana &mdash; 13% &nbsp;114 menzioni</div>
+          <div class="sov-legend-item"><div class="sov-dot" style="background:#7c3aed;"></div>Rummo &mdash; 9% &nbsp;84 menzioni</div>
+        </div>
+        <p style="font-size:12px;color:var(--text-light);margin-top:16px;font-style:italic;">Fonte: OpenSearch social listening con filtro contestuale pasta &mdash; 907 menzioni qualificate &mdash; Giu 2025&ndash;Feb 2026</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGAGEMENT PER CANALE — Dati reali OpenSearch -->
+  <div class="card">
+    <h3>Chi parla di Barilla: engagement per canale</h3>
+    <p style="font-size:13px;color:var(--text-light);margin-bottom:20px;">I 326 contenuti che menzionano Barilla generano oltre 1,1M di engagement totale. Ma solo il <strong style="color:var(--red);">5% proviene dal canale ufficiale</strong>.</p>
+    <div style="max-width:580px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:160px;font-size:14px;font-weight:600;">Creator &amp; divulgatori</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:100%;height:100%;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">~920K eng totale</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:160px;font-size:14px;font-weight:600;">Post virali (F1, sport)</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:21%;height:100%;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">189K eng</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:160px;font-size:14px;font-weight:600;">Stampa / giornalisti</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:2%;min-width:85px;height:100%;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">~10,5K eng</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:160px;font-size:14px;font-weight:700;color:var(--red);">@barillaitalia</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:28px;position:relative;">
+          <div style="width:1%;min-width:80px;height:100%;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:white;font-size:12px;font-weight:700;">3,7K eng</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-light);margin-top:16px;">Fonte: OpenSearch social listening &mdash; 326 menzioni Barilla (filtro contestuale pasta) &mdash; Giu 2025&ndash;Feb 2026. @barillaitalia: 15 post, 250 eng medio.</p>
+  </div>
+
+  <!-- ANALISI TEMATICA -->
+  <div class="card">
+    <h3>I temi caldi della stampa alimentare</h3>
+    <div class="grid-2">
+      <div style="padding:20px;background:var(--green-light);border-radius:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:22px;">&#127793;</span>
+          <span class="trend-badge trend-up">&#8599; forte crescita</span>
+        </div>
+        <div style="font-weight:700;font-size:15px;">Sostenibilit&agrave; e filiera</div>
+        <div style="font-size:13px;color:var(--text-light);margin-top:8px;">Barilla presidia con Passive Cooker e 7.000+ agricoltori in agricoltura rigenerativa. Territorio solido.</div>
+      </div>
+      <div style="padding:20px;background:#eef2f7;border-radius:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:22px;">&#128176;</span>
+          <span class="trend-badge trend-stable">&#8594; stabile</span>
+        </div>
+        <div style="font-weight:700;font-size:15px;">Inflazione alimentare</div>
+        <div style="font-size:13px;color:var(--text-light);margin-top:8px;">Confronto con MDD in crescita, pressione su brand industriali. Richiede narrazione di valore, non di prezzo.</div>
+      </div>
+      <div style="padding:20px;background:var(--gold-light);border-radius:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:22px;">&#127981;</span>
+          <span class="trend-badge trend-up">&#8599; crescita</span>
+        </div>
+        <div style="font-weight:700;font-size:15px;">Made in Italy e reshoring</div>
+        <div style="font-size:13px;color:var(--text-light);margin-top:8px;"><strong style="color:var(--red);">Barilla assente</strong> dal dibattito nonostante filiera 100% italiana e stabilimenti a Parma. Opportunit&agrave; mancata.</div>
+      </div>
+      <div style="padding:20px;background:var(--red-light);border-radius:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:22px;">&#128300;</span>
+          <span class="trend-badge trend-up">&#8599; emergente</span>
+        </div>
+        <div style="font-weight:700;font-size:15px;">Novel food e innovazione</div>
+        <div style="font-size:13px;color:var(--text-light);margin-top:8px;">Protein pasta, farine alternative, insect food: Barilla potrebbe guidare il dibattito con la sua R&amp;D e la linea Protein+.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOCI AUTOREVOLI -->
+  <div class="card">
+    <h3>Le voci autorevoli del dibattito alimentare</h3>
+    <p style="font-size:14px;color:var(--text-light);margin-bottom:20px;">Non micro-influencer di prodotto, ma le figure che plasmano l&rsquo;opinione pubblica nel food italiano.</p>
+    <div style="overflow-x:auto;">
+      <table class="risk-table">
+        <thead><tr><th>Nome</th><th>Ruolo / Testata</th><th>Piattaforma</th><th>Rilevanza Barilla</th></tr></thead>
+        <tbody>
+          <tr><td>Massimo Bottura</td><td>Chef, Osteria Francescana</td><td>Stampa + Social</td><td><span class="risk-dot risk-high"></span>Altissima</td></tr>
+          <tr><td>Ferruccio de Bortoli</td><td>Editorialista, Corriere</td><td>Stampa</td><td><span class="risk-dot risk-med"></span>Alta</td></tr>
+          <tr><td>Ettore Prandini</td><td>Presidente Coldiretti</td><td>Istituzionale</td><td><span class="risk-dot risk-med"></span>Alta</td></tr>
+          <tr><td>Carlo Petrini</td><td>Fondatore Slow Food</td><td>Stampa + Eventi</td><td><span class="risk-dot risk-med"></span>Alta</td></tr>
+          <tr><td>@geopop</td><td>Divulgazione scientifica</td><td>IG / TikTok / YT</td><td><span class="risk-dot risk-med"></span>Alta</td></tr>
+          <tr><td>@cookwithfez</td><td>Divulgazione culinaria</td><td>IG / TikTok</td><td><span class="risk-dot risk-low"></span>Media</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>L&rsquo;insight per il PR</strong>
+    Barilla &egrave; l&rsquo;unico brand alimentare italiano con la credibilit&agrave; per dialogare con <strong>tutte</strong> le voci autorevoli del settore &mdash; dalla stampa economica alle istituzioni agricole, dai grandi chef ai divulgatori. Ma oggi quel dialogo non esiste. La Share of Voice sulla stampa &egrave; alta per inerzia storica, non per strategia attiva. Il rischio: essere citati come &ldquo;caso studio&rdquo; anzich&eacute; come <strong>protagonisti del dibattito</strong>.
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 3: 150 ANNI BARILLA
+     ============================== -->
+<div id="strength" class="section">
+  <div class="act-label">Atto 3</div>
+  <div class="hero-insight">Nel 2027 Barilla compie 150 anni. I contenuti heritage generano 4,5x l&rsquo;engagement dei post prodotto ufficiali.</div>
+  <div class="hero-sub">Il pi&ugrave; grande patrimonio narrativo del food italiano &egrave; gi&agrave; vostro. Il 150&deg; anniversario &egrave; l&rsquo;opportunit&agrave; per attivarlo.</div>
+
+  <!-- BAR CHART: Heritage vs Product -->
+  <div class="card">
+    <h3>Engagement per tipologia di contenuto</h3>
+    <div style="max-width:580px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:200px;font-size:14px;font-weight:600;">Heritage / Corporate (terzi)</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:32px;position:relative;">
+          <div style="width:100%;height:100%;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:white;font-size:13px;font-weight:700;">1.128 avg eng</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:200px;font-size:14px;font-weight:700;color:var(--red);">@barillaitalia (ufficiale)</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:8px;height:32px;position:relative;">
+          <div style="width:22%;min-width:75px;height:100%;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:white;font-size:13px;font-weight:700;">250 avg eng</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-light);margin-top:16px;">Fonte: OpenSearch social listening &mdash; 63 post heritage (avg 1.128) vs 15 post @barillaitalia (avg 250). Top content: reunion Ferrari&ndash;Paolo Barilla, 189K eng.</p>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="card">
+    <h3>La Timeline dell&rsquo;Eccellenza</h3>
+    <div class="timeline">
+      <div class="timeline-dot">
+        <div class="timeline-year">1877</div>
+        <div class="timeline-event">Fondazione a Parma</div>
+      </div>
+      <div class="timeline-dot">
+        <div class="timeline-year">1910</div>
+        <div class="timeline-event">Prima espansione</div>
+      </div>
+      <div class="timeline-dot">
+        <div class="timeline-year">1971</div>
+        <div class="timeline-event">Blue Box iconica</div>
+      </div>
+      <div class="timeline-dot">
+        <div class="timeline-year" style="color:var(--red);">2013</div>
+        <div class="timeline-event">Crisi D&amp;I</div>
+      </div>
+      <div class="timeline-dot">
+        <div class="timeline-year" style="color:var(--green);">2015</div>
+        <div class="timeline-event">100/100 HRC</div>
+      </div>
+      <div class="timeline-dot">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-event">Passive Cooker</div>
+      </div>
+      <div class="timeline-dot highlight">
+        <div class="timeline-year" style="color:var(--red);font-size:16px;">2027</div>
+        <div class="timeline-event" style="font-weight:700;color:var(--text);">150 Anni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSET NARRATIVI -->
+  <div class="card">
+    <h3>Asset narrativi esclusivi per il 150&deg;</h3>
+    <div class="grid-2">
+      <div class="grid-3" style="grid-column:1/-1;">
+        <div class="campaign">
+          <div class="campaign-badge" style="background:var(--gold-light);color:#92400e;">Heritage</div>
+          <div style="font-weight:700;font-size:15px;margin-top:12px;">Fondazione 1877</div>
+          <div style="font-size:13px;color:var(--text-light);margin-top:8px;">148 anni di storia. Nessun competitor pasta in Italia ha una narrazione temporale cos&igrave; profonda.</div>
+        </div>
+        <div class="campaign">
+          <div class="campaign-badge" style="background:var(--red-light);color:var(--red);">Unico</div>
+          <div style="font-weight:700;font-size:15px;margin-top:12px;">DNA Motorsport</div>
+          <div style="font-size:13px;color:var(--text-light);margin-top:8px;">Paolo Barilla, Le Mans, Ferrari. Un territorio narrativo che nessun brand food al mondo possiede. Virale F1: 189K eng.</div>
+        </div>
+        <div class="campaign">
+          <div class="campaign-badge" style="background:var(--green-light);color:var(--green);">Trasformazione</div>
+          <div style="font-weight:700;font-size:15px;margin-top:12px;">Da crisi a leadership</div>
+          <div style="font-size:13px;color:var(--text-light);margin-top:8px;">2013: crisi D&amp;I. 2015&ndash;2018: 100/100 HRC per 4 anni consecutivi. Una storia di coraggio e autenticit&agrave;.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITÀ PR PER IL 150° -->
+  <div class="card" style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);color:white;">
+    <h3 style="color:var(--gold);">Opportunit&agrave; PR per il 150&deg; Anniversario</h3>
+    <div class="grid-2" style="gap:16px;">
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;">
+        <div style="font-size:20px;margin-bottom:6px;">&#127909;</div>
+        <div style="font-weight:700;font-size:14px;">Docu-series Heritage</div>
+        <div style="font-size:13px;opacity:0.8;margin-top:4px;">Dalla bottega di Pietro Barilla al leader globale: una narrazione multi-episodio per stampa e streaming.</div>
+      </div>
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;">
+        <div style="font-size:20px;margin-bottom:6px;">&#127963;</div>
+        <div style="font-weight:700;font-size:14px;">Press Tour Parma</div>
+        <div style="font-size:13px;opacity:0.8;margin-top:4px;">Stabilimenti, archivio storico, filiera: esperienza immersiva per giornalisti e opinion leader internazionali.</div>
+      </div>
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;">
+        <div style="font-size:20px;margin-bottom:6px;">&#127970;</div>
+        <div style="font-weight:700;font-size:14px;">Partnership Musei e Istituzioni</div>
+        <div style="font-size:13px;opacity:0.8;margin-top:4px;">Mostra itinerante &ldquo;150 anni di Italia a tavola&rdquo;: MAXXI, Triennale, Palazzo Reale.</div>
+      </div>
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;">
+        <div style="font-size:20px;margin-bottom:6px;">&#127775;</div>
+        <div style="font-weight:700;font-size:14px;">Evento Flagship</div>
+        <div style="font-size:13px;opacity:0.8;margin-top:4px;">Gala celebrativo con istituzioni, stampa internazionale e chef stellati. Format replicabile nelle capitali globali.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>L&rsquo;insight per il PR</strong>
+    Ogni brand sogna una storia come questa. Voi l&rsquo;avete gi&agrave;. I contenuti heritage generano <strong>4,5 volte</strong> l&rsquo;engagement dei post prodotto ufficiali. Il 150&deg; anniversario &egrave; l&rsquo;opportunit&agrave; narrativa pi&ugrave; grande della storia di Barilla &mdash; e il momento perfetto per riprendersi la voce.
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 4: IL TERRITORIO + ALERT REPUTAZIONALE
+     ============================== -->
+<div id="territory" class="section">
+  <div class="act-label">Atto 4</div>
+  <div class="hero-insight">La reputazione si costruisce in anni e si perde in un tweet. Barilla ha gi&agrave; attraversato la tempesta una volta.</div>
+  <div class="hero-sub">Le tensioni reputazionali sono il terreno su cui il PR opera. Mapparle &egrave; il primo passo per governarle.</div>
+
+  <!-- TENSIONI REPUTAZIONALI -->
+  <div class="card">
+    <h3>Le tensioni reputazionali di Barilla</h3>
+    <div class="tension">
+      <div class="tension-left">
+        <div class="tension-word">Tradizione</div>
+        <div class="tension-sub">&ldquo;La ricetta della nonna&rdquo;</div>
+      </div>
+      <div class="tension-icon">&#9876;</div>
+      <div class="tension-right">
+        <div class="tension-word">Innovazione</div>
+        <div class="tension-sub">Protein+, Al Bronzo, nuovi formati</div>
+      </div>
+    </div>
+    <div class="tension">
+      <div class="tension-left">
+        <div class="tension-word">Accessibilit&agrave;</div>
+        <div class="tension-sub">98% supermercati, prezzo democratico</div>
+      </div>
+      <div class="tension-icon">&#9876;</div>
+      <div class="tension-right">
+        <div class="tension-word">Aspirazionalit&agrave;</div>
+        <div class="tension-sub">Heritage premium, alta cucina, Bottura</div>
+      </div>
+    </div>
+    <div class="tension">
+      <div class="tension-left">
+        <div class="tension-word">Italianit&agrave; autentica</div>
+        <div class="tension-sub">Heritage 1877, famiglia, territorio</div>
+      </div>
+      <div class="tension-icon">&#9876;</div>
+      <div class="tension-right">
+        <div class="tension-word">Apertura globale</div>
+        <div class="tension-sub">Inclusione, diversit&agrave;, modernit&agrave;</div>
+      </div>
+    </div>
+    <div class="tension" style="background:var(--red-light);">
+      <div class="tension-left">
+        <div class="tension-word" style="color:var(--red);">Comunicazione corporate</div>
+        <div class="tension-sub">250 eng/post, tono istituzionale</div>
+      </div>
+      <div class="tension-icon" style="font-size:22px;">&#9888;</div>
+      <div class="tension-right">
+        <div class="tension-word" style="color:var(--green);">Conversazione pubblica</div>
+        <div class="tension-sub">Creator e community: 17.500 eng/post</div>
+      </div>
+    </div>
+    <div class="callout red">
+      <strong>La tensione pi&ugrave; urgente per il PR</strong>
+      <strong>Corporate vs Conversazione pubblica.</strong> Quando la narrativa su Barilla &egrave; nelle mani di terzi, il brand &egrave; esposto. La tensione Italianit&agrave; vs Globalit&agrave; pu&ograve; riaccendersi in qualsiasi momento &mdash; come ha dimostrato il 2013. Un presidio attivo della conversazione &egrave; la miglior polizza assicurativa.
+    </div>
+  </div>
+
+  <!-- CASE STUDY: GUIDO BARILLA 2013 -->
+  <div class="card" style="background:var(--red-light);border:2px solid var(--red);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <span style="font-size:28px;">&#9888;</span>
+      <h3 style="margin:0;color:var(--red);">Case Study: Il Caso Guido Barilla (2013)</h3>
+    </div>
+    <p style="font-size:15px;line-height:1.8;margin-bottom:20px;">Le dichiarazioni di Guido Barilla sulla &ldquo;famiglia tradizionale&rdquo; nel programma La Zanzara di Cruciani hanno generato una crisi reputazionale globale: boicottaggio sui social, hashtag virali, copertura stampa internazionale negativa.</p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="flex:1;min-width:140px;padding:16px;background:white;border-radius:12px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--red);">2013</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px;">Dichiarazioni La Zanzara</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:20px;color:var(--text-light);">&#8594;</div>
+      <div style="flex:1;min-width:140px;padding:16px;background:white;border-radius:12px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--red);">2013&ndash;14</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px;">Boicottaggio globale</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:20px;color:var(--text-light);">&#8594;</div>
+      <div style="flex:1;min-width:140px;padding:16px;background:white;border-radius:12px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--blue);">2014</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px;">Task force D&amp;I</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:20px;color:var(--text-light);">&#8594;</div>
+      <div style="flex:1;min-width:140px;padding:16px;background:white;border-radius:12px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--green);">2015&ndash;18</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px;">100/100 HRC 4 anni</div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:16px 20px;border-radius:12px;font-size:14px;line-height:1.7;">
+      <strong style="color:var(--green);">La lezione:</strong> La crisi peggiore di Barilla &egrave; diventata la sua storia di riscatto pi&ugrave; potente. Ma ha richiesto <strong>5 anni</strong> di lavoro strutturato. Un sistema di <strong>alert precoce</strong> avrebbe potuto prevenirla o mitigarla nei primi minuti.
+    </div>
+  </div>
+
+  <!-- RADAR TEMATICHE SENSIBILI -->
+  <div class="card">
+    <h3>&#128680; Radar: Tematiche sensibili attive</h3>
+    <p style="font-size:14px;color:var(--text-light);margin-bottom:20px;">Monitoraggio in tempo reale delle conversazioni social che possono impattare la reputazione corporate.</p>
+    <div style="overflow-x:auto;">
+      <table class="risk-table">
+        <thead>
+          <tr><th>Tema</th><th>Rischio</th><th>Volume Social</th><th>Trend</th><th>Azione</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qualit&agrave; &ldquo;industriale&rdquo;</td>
+            <td><span class="risk-dot risk-med"></span>Medio</td>
+            <td>28 menzioni</td>
+            <td><span class="trend-badge trend-stable">&#8594; stabile</span></td>
+            <td>Narrazione filiera</td>
+          </tr>
+          <tr>
+            <td>Prezzi / confronto MDD</td>
+            <td><span class="risk-dot risk-med"></span>Medio</td>
+            <td>19 menzioni</td>
+            <td><span class="trend-badge trend-stable">&#8594; stabile</span></td>
+            <td>Monitoraggio attivo</td>
+          </tr>
+          <tr>
+            <td>Sostenibilit&agrave; / greenwashing</td>
+            <td><span class="risk-dot risk-low"></span>Basso</td>
+            <td>9 menzioni</td>
+            <td><span class="trend-badge trend-stable">&#8594; stabile</span></td>
+            <td>Passive Cooker protegge</td>
+          </tr>
+          <tr>
+            <td>Glifosato / pesticidi</td>
+            <td><span class="risk-dot risk-low"></span>Basso</td>
+            <td>0 menzioni</td>
+            <td><span class="trend-badge trend-stable">&#8594; assente nel periodo</span></td>
+            <td>Q&amp;A pronta (ciclico)</td>
+          </tr>
+          <tr>
+            <td>Diversit&agrave; e inclusione</td>
+            <td><span class="risk-dot risk-low"></span>Basso</td>
+            <td>&lt;5 menzioni</td>
+            <td><span class="trend-badge trend-down">&#8600; in calo</span></td>
+            <td>Risolto positivamente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout red" style="margin-top:24px;">
+      <strong>L&rsquo;insight per il PR</strong>
+      Un team PR proattivo non reagisce alle crisi &mdash; le anticipa. I volumi attuali sono bassi (61 menzioni totali su temi sensibili), ma questo &egrave; il momento ideale per prepararsi: il tema &ldquo;qualit&agrave; industriale&rdquo; (28 menzioni) richiede una narrazione costante sulla filiera e i 7.000+ agricoltori. Il glifosato, oggi assente, &egrave; ciclico e correlato ai test consumatori: una Q&amp;A pronta pu&ograve; trasformare un titolo negativo in un&rsquo;opportunit&agrave;.
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 5: TRE MOSSE
+     ============================== -->
+<div id="moves" class="section">
+  <div class="act-label">Atto 5</div>
+  <div class="hero-insight">Tre mosse per il PR Corporate: governare la reputazione, non inseguirla.</div>
+  <div class="hero-sub">Non tattiche social, ma interventi strutturali sulla comunicazione istituzionale Barilla. Ogni mossa &egrave; fondata su dati e progettata per un Chief Communication Officer.</div>
+
+  <div class="move">
+    <div class="move-num" style="background:var(--blue);">1</div>
+    <div>
+      <div class="move-title">Governare la Narrativa Digitale</div>
+      <div class="move-body">Costruire un sistema di <strong>monitoring attivo</strong> delle conversazioni reputazionali, un <strong>rapid response protocol</strong> per tematiche sensibili e una <strong>war room digitale</strong> permanente. Oggi il <strong>95% dei contenuti</strong> che citano Barilla &egrave; spontaneo e non governato (311 su 326 menzioni): la narrativa corporate &egrave; scritta da terzi. Il canale ufficiale @barillaitalia genera in media solo 250 interazioni per post.</div>
+      <div class="move-data">
+        <strong>Insight di partenza:</strong> 95% dei contenuti spontanei e non governati (311 su 326 menzioni, dati OpenSearch). @barillaitalia: 250 eng medio vs creator terzi fino a 25K<br>
+        <strong>Target:</strong> Response time &lt;4h per tematiche sensibili. Dashboard alert in tempo reale con escalation automatica
+      </div>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="move-num" style="background:var(--red);">2</div>
+    <div>
+      <div class="move-title">Attivare il Patrimonio dei 150 Anni</div>
+      <div class="move-body">Sviluppare un <strong>piano PR editoriale di 18 mesi</strong> costruito attorno al 150&deg; anniversario (2027): docu-series sulla storia Barilla, press tour a Parma con giornalisti internazionali, partnership con musei e istituzioni culturali, evento flagship di portata nazionale. I contenuti heritage generano <strong>4,5x l&rsquo;engagement</strong> dei post prodotto ufficiali (1.128 vs 250 avg): questa &egrave; la storia che il pubblico vuole raccontare.</div>
+      <div class="move-data">
+        <strong>Insight di partenza:</strong> Contenuti heritage &rarr; 4,5x engagement (1.128 vs 250 avg eng, OpenSearch). Il 150&deg; &egrave; un asset narrativo irripetibile<br>
+        <strong>Target:</strong> 50+ articoli su stampa nazionale in 12 mesi. 3 partnership istituzionali di primo livello
+      </div>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="move-num" style="background:var(--green);">3</div>
+    <div>
+      <div class="move-title">L&rsquo;Ecosistema delle Voci Autorevoli</div>
+      <div class="move-body">Costruire un network strutturato di <strong>giornalisti</strong> (de Bortoli, editorialisti economici), <strong>chef-celebrity</strong> (Bottura come ambassador culturale), <strong>figure istituzionali</strong> (Coldiretti, Slow Food) e <strong>opinion leader food</strong> (divulgatori come geopop). Le expert recommendations hanno +34% di efficacia rispetto ai media tradizionali: le voci autorevoli raggiungono il decisore, non il consumatore generico.</div>
+      <div class="move-data">
+        <strong>Insight di partenza:</strong> +34% efficacia expert recommendations vs media tradizionali. Barilla &egrave; l&rsquo;unico brand con credibilit&agrave; trasversale (stampa, istituzioni, food culture)<br>
+        <strong>Target:</strong> 15 ambassador istituzionali in 12 mesi. Earned/Paid media ratio &gt;4:1
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 60%, var(--red) 100%);color:white;text-align:center;padding:48px 32px;margin-top:16px;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;opacity:0.7;margin-bottom:16px;">IMPATTO ATTESO</div>
+    <div style="display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-bottom:24px;">
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;">&lt;4h</div>
+        <div style="font-size:14px;opacity:0.8;">Tempo di risposta reputazionale</div>
+      </div>
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;">50+</div>
+        <div style="font-size:14px;opacity:0.8;">Articoli stampa nazionale / anno</div>
+      </div>
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;">4:1</div>
+        <div style="font-size:14px;opacity:0.8;">Earned/Paid media ratio</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     ATTO 6: PERCHÉ NOI
+     ============================== -->
+<div id="approach" class="section">
+  <div class="act-label">Atto 6</div>
+  <div class="hero-insight">Questo report &egrave; un assaggio di come lavoriamo. Immaginate cosa potremmo scoprire insieme.</div>
+  <div class="hero-sub">Non siamo un&rsquo;agenzia creativa che usa i dati. Non siamo una societ&agrave; di ricerca che fa creativit&agrave;. Siamo qualcosa di nuovo.</div>
+
+  <div class="card">
+    <h3>Cosa ha prodotto questo report</h3>
+    <div class="method-grid">
+      <div class="method-item" style="background:var(--green-light);">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--green);">4</div>
+        <div class="method-name">Fonti di intelligence</div>
+        <div class="method-desc">Consumer panel, social listening, competitive analysis, cultural research</div>
+      </div>
+      <div class="method-item" style="background:#eef2f7;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--blue);">3</div>
+        <div class="method-name">Agenti AI specializzati</div>
+        <div class="method-desc">Ognuno con competenze e strumenti diversi, lavorano in parallelo</div>
+      </div>
+      <div class="method-item" style="background:var(--gold-light);">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--gold);">700M+</div>
+        <div class="method-name">Profili consumer</div>
+        <div class="method-desc">Il pi&ugrave; grande panel al mondo per capire chi sono i vostri consumatori</div>
+      </div>
+      <div class="method-item" style="background:var(--red-light);">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:var(--red);">1</div>
+        <div class="method-name">Visione strategica</div>
+        <div class="method-desc">La tecnologia alimenta l&rsquo;intuizione, non la sostituisce</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>La differenza</h3>
+    <div class="grid-3">
+      <div style="padding:20px;text-align:center;">
+        <div style="font-size:14px;color:var(--text-light);margin-bottom:8px;">Agenzia tradizionale</div>
+        <div style="font-size:15px;font-weight:600;">&ldquo;Abbiamo un&rsquo;idea creativa.&rdquo;</div>
+      </div>
+      <div style="padding:20px;text-align:center;">
+        <div style="font-size:14px;color:var(--text-light);margin-bottom:8px;">Societ&agrave; di ricerca</div>
+        <div style="font-size:15px;font-weight:600;">&ldquo;Ecco i dati.&rdquo;</div>
+      </div>
+      <div style="padding:20px;text-align:center;background:var(--blue);border-radius:16px;color:white;">
+        <div style="font-size:14px;opacity:0.8;margin-bottom:8px;">Il nostro approccio</div>
+        <div style="font-size:15px;font-weight:600;">&ldquo;Ecco l&rsquo;insight. Ecco perch&eacute; conta. Ecco cosa fare.&rdquo;</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:64px 0 48px;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--blue);max-width:600px;margin:0 auto;line-height:1.3;">
+      Barilla ha 148 anni di storia, un brand love invidiabile e un gap di 4.6x da colmare.
+    </div>
+    <div style="font-size:17px;color:var(--text-light);margin-top:16px;max-width:480px;margin-left:auto;margin-right:auto;">
+      Noi abbiamo gli strumenti per trasformare quel gap nella pi&ugrave; grande opportunit&agrave; di crescita digitale nel settore pasta.
+    </div>
+    <div style="margin-top:32px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--red);letter-spacing:1px;">
+      PARLIAMONE.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <strong>Corporate Reputation Intelligence Report</strong> &mdash; Barilla &mdash; Febbraio 2026<br>
+  Fonti: GWI Consumer Intelligence (Q1&ndash;Q4 2025) &bull; Social Listening (Giu 2025&ndash;Feb 2026) &bull; Press &amp; Institutional Intelligence &bull; Competitive Research<br>
+  <span style="font-size:11px;opacity:0.6;">Generato da un&rsquo;orchestra di agenti AI specializzati &mdash; Reputation Analyst, Press Monitor, Crisis Intelligence</span>
+</footer>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+  document.getElementById(id).style.display = 'block';
+  // trigger reflow for animation
+  void document.getElementById(id).offsetWidth;
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('[data-section="' + id + '"]').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+// initialize: show first section
+document.addEventListener('DOMContentLoaded', function() {
+  showSection('method');
+});
+</script>
+</body>
+</html>
